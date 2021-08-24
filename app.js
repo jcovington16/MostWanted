@@ -12,7 +12,11 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      searchResults = multiSearch(people);// TODO: search by traits
+      searchResults = searchChoice();
+      if(searchResults === true){
+        searchByTrait(people);
+      }else
+      multiSearch(people);
       break;
       default:
     app(people); // restart app
@@ -128,6 +132,20 @@ function integers(input){
   }
 }
 
+//Function to choose how user wants to search.
+function searchChoice(){
+  let input = promptFor("How would you like to search?\n1: One search criteria.\n2: Multiple search criteria?", integers);
+  while(input <= 2 && input !=0){
+    if(input == 1){
+      return true;
+    }else
+      return false;
+  }while(input != 2 || input != 1){
+    alert("Enter valid selection.");
+    return searchChoice();
+  } 
+}
+
 //Function to search by single trait
 function searchByTrait(people){    
   let input = promptFor("Which trait would you like to search by?\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\n7: IDK Restart?",integers);
@@ -168,15 +186,15 @@ function searchByTrait(people){
       app(people);
     }
 }
+// currently not in use. 
+// function searchTerms(){
+//   let input = promptFor("Which traits would you like to search for? (Max of 5)\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\nFormat: 1, 2, 4, 5...",integers);
+//   let searchArr = [];
+//   searchArr.push(input);
+//   return searchArr;
+// }
 
-function searchTerms(){
-  let input = promptFor("Which traits would you like to search for? (Max of 5)\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\nFormat: 1, 2, 4, 5...",integers);
-  let searchArr = [];
-  searchArr.push(input);
-  return searchArr;
-}
-
-//Function to search by multiple traits
+//Function to search by multiple traits. narrows down list until one person returned. 
 function multiSearch(people){
   let input = promptFor("Which traits would you like to search for? (Max of 5)\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\nFormat: 1, 2, 4, 5...",integers);
   let searchArr = input.split(", ");
