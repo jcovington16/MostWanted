@@ -42,7 +42,7 @@ function mainMenu(person, people){
     break;
     case "family":
     // TODO: get person's family
-    displayFamily(person);
+    displayFamily(person, people);
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -74,14 +74,20 @@ function searchByName(people){
   return foundPerson;
 }
 
-function displayFamily(person) {
+function displayFamily(person, people) {
   let family = person.currentSpouse;
+  family = parseInt(family);
 
   if(family === null) {
     alert(`${person.firstName} ${person.lastName} has no family`)
   }
 
-
+  for (let i = 0; i < people.length; i++) {
+    if (family === people[i]['id']) {
+      console.log(people[i])
+      alert(`${person.firstName} ${person.lastName} is married to ${people[i]['firstName']} ${people[i]['lastName']}`)
+    };
+  }
 
 }
 
