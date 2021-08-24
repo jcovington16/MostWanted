@@ -38,6 +38,7 @@ function mainMenu(person, people){
   switch(displayOption){
     case "info":
     // TODO: get person's info
+    displayPerson(person);
     break;
     case "family":
     // TODO: get person's family
@@ -84,6 +85,9 @@ function displayPerson(person){
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
   // TODO: finish getting the rest of the information to display
+  let personInfo = `First Name: ${person.firstName}\n Last Name: ${person.lastName}\n 
+  gender: ${person.gender}\n dob: ${person.dob}\n height: ${person.height}\n 
+  weight: ${person.weight}\n eyeColor: ${person.eyeColor}\n occupation: ${person.occupation}`
   alert(personInfo);
 }
 
