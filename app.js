@@ -42,6 +42,7 @@ function mainMenu(person, people){
     break;
     case "family":
     // TODO: get person's family
+    displayFamily(person);
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -69,7 +70,19 @@ function searchByName(people){
     }
   })
   // TODO: find the person using the name they entered
+  foundPerson = foundPerson[0]
   return foundPerson;
+}
+
+function displayFamily(person) {
+  let family = person.currentSpouse;
+
+  if(family === null) {
+    alert(`${person.firstName} ${person.lastName} has no family`)
+  }
+
+
+
 }
 
 // alerts a list of people
@@ -82,11 +95,10 @@ function displayPeople(people){
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
+
   // TODO: finish getting the rest of the information to display
-  let personInfo = `First Name: ${person.firstName}\n Last Name: ${person.lastName}\n 
-  gender: ${person.gender}\n dob: ${person.dob}\n height: ${person.height}\n 
+  let personInfo = `First Name: ${person.firstName}\nLast Name: ${person.lastName}\n
+  gender: ${person.gender}\n dob: ${person.dob}\n height: ${person.height}\n
   weight: ${person.weight}\n eyeColor: ${person.eyeColor}\n occupation: ${person.occupation}`
   alert(personInfo);
 }
