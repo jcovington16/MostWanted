@@ -12,7 +12,7 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      searchResults = searchByTrait(people);// TODO: search by traits
+      searchResults = multiSearch(people);// TODO: search by traits
       break;
       default:
     app(people); // restart app
@@ -160,6 +160,7 @@ function searchByTrait(people){
   }
     if (foundPeople.length > 1) {
       displayPeople(foundPeople);
+      app(people);
     } else if (foundPeople.length === 1) {
       let foundPerson = foundPeople[0];
       mainMenu(foundPerson, people);
@@ -169,7 +170,7 @@ function searchByTrait(people){
 }
 
 function searchTerms(){
-  let input = promptFor("Which traits would you like to search for?\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\n7: IDK Restart?",integers);
+  let input = promptFor("Which traits would you like to search for? (Max of 5)\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\nFormat: 1, 2, 4, 5...",integers);
   let searchArr = [];
   searchArr.push(input);
   return searchArr;
@@ -177,12 +178,84 @@ function searchTerms(){
 
 //Function to search by multiple traits
 function multiSearch(people){
-  let input = promptFor("Which traits would you like to search for?\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\n7: IDK Restart?",integers);
-  let searchArr = [];
+  let input = promptFor("Which traits would you like to search for? (Max of 5)\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\nFormat: 1, 2, 4, 5...",integers);
+  let searchArr = input.split(", ");
+  let foundPeople = [];
   searchArr.push(input);
-  searchArr.forEach(genderSearch(people), 1);
+  const includesOne = searchArr.includes("1");
+  const includesTwo = searchArr.includes("2");
+  const includesThree = searchArr.includes("3");
+  const includesFour = searchArr.includes("4");
+  const includesFive = searchArr.includes("5");
+  const includesSix = searchArr.includes("6");
+while(foundPeople.length > 1 || foundPeople.length === 0){
+  if(includesOne === true){
+      foundPeople = genderSearch(people);
+      if (foundPeople.length > 1) {
+        displayPeople(foundPeople);  
+      }} 
+  if(includesTwo === true){
+    if(foundPeople ===[]){
+      foundPeople = getHeight(people)
+      }
+    else
+      foundPeople = getHeight(foundPeople); 
+      if (foundPeople.length > 1) {
+        displayPeople(foundPeople);
+        }else if (foundPeople.length === 1) {
+        let foundPerson = foundPeople[0];
+        mainMenu(foundPerson, people);
+        break; }}
+  if(includesThree === true){
+    if(foundPeople ===[]){
+      foundPeople = getWeight(people)
+      }
+    else
+      foundPeople = getWeight(foundPeople);
+      if (foundPeople.length > 1) {
+        displayPeople(foundPeople);
+        }else if (foundPeople.length === 1) {
+        let foundPerson = foundPeople[0];
+        mainMenu(foundPerson, people);
+        break; }}
+  if(includesFour === true){
+    if(foundPeople ===[]){
+      foundPeople = getEyes(people)
+      }
+    else
+      foundPeople = getEyes(foundPeople);
+      if (foundPeople.length > 1) {
+        displayPeople(foundPeople);
+        }else if (foundPeople.length === 1) {
+        let foundPerson = foundPeople[0];
+        mainMenu(foundPerson, people);
+        break; }}
+  if(includesFive === true){
+    if(foundPeople ===[]){
+      foundPeople = getOccupation(people)
+      }
+    else
+      foundPeople = getOccupation(foundPeople);
+      if (foundPeople.length > 1) {
+        displayPeople(foundPeople);
+        }else if (foundPeople.length === 1) {
+        let foundPerson = foundPeople[0];
+        mainMenu(foundPerson, people);
+        break; }}
+  if(includesSix === true){
+    if(foundPeople ===[]){
+      foundPeople = getAge(people)
+      }
+    else
+      foundPeople = getAge(foundPeople);
+      if (foundPeople.length > 1) {
+        displayPeople(foundPeople);
+        }else if (foundPeople.length === 1) {
+        let foundPerson = foundPeople[0];
+        mainMenu(foundPerson, people);
+        break; }}
+  }
 }
-
 
 //Function to prompt no results if criteria doesnt match. 
 function noResults(){
