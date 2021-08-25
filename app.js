@@ -128,20 +128,6 @@ function integers(input){
   }
 }
 
-//Function to choose how user wants to search.
-function searchChoice(){
-  let input = promptFor("How would you like to search?\n1: One search criteria.\n2: Multiple search criteria?", integers);
-  while(input <= 2 && input !=0){
-    if(input == 1){
-      return true;
-    }else
-      return false;
-  }while(input != 2 || input != 1){
-    alert("Enter valid selection.");
-    return searchChoice();
-  } 
-}
-
 //Function to search by single trait
 function searchByTrait(people){    
   let input = promptFor("Which trait would you like to search by?\n1: Gender\n2: Height\n3: Weight\n4: Eye Color\n5: Occupation\n6: DOB\n7: IDK Restart?",integers);
