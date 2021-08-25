@@ -43,7 +43,9 @@ function mainMenu(person, people){
     break;
     case "family":
     // TODO: get person's family
-    displayFamily(person, people);
+    let get_family = getFamily(person, people);
+    displayPeople(get_family);
+    mainMenu(person,people);
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -80,42 +82,14 @@ function displayDecendants(person, people) {
 
 }
 
-function getParents(person, people) {
-  let family = '';
-  if(person.parents.length === 0) {
-    family += `${person.firstName} ${person.lastName} has no parents\n`
-  }
-  for (let j = 0; j < person.parents.length; j++) {
-    for (let k = 0; k < people.length; k++) {
-      if (person.parents[j] === people[k]['id']) {
-        family += `Parent: ${people[k]['firstName']} ${people[k]['lastName']}\n`
-        break;
+function getFamily(person, people) {
+
+  let family = people.filter((item) => {
+    if (person.parents.includes(item.id) || item.parents.includes(person.id) || person.currentSpouse === item.id) {
+      return true;
     } 
-    }
-  }
+  })
   return family;
-}
-
-function displayFamily(person, people) {
-  // let family = person.currentSpouse;
-  // family = parseInt(family);
-  let family = '';
-
-  if(person.currentSpouse === null) {
-    family += `${person.firstName} ${person.lastName} has no spouse\n`
-  } else{
-      for (let i = 0; i < people.length; i++) {
-        if (person.currentSpouse === people[i]['id']) {
-          // TODO: change the format of the family to display all the information
-          family += `${person.firstName} ${person.lastName} is married to ${people[i]['firstName']} ${people[i]['lastName']}\n`
-        };
-      }
-  }
-
-  let person_parents = getParents(person, people);
-  family += person_parents;
-
-  alert(family);
 }
 
 // alerts a list of people
