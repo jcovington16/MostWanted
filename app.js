@@ -20,7 +20,7 @@ function app(people){
   }
   
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults, people);
+  mainMenu(searchResults[0], people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -39,6 +39,7 @@ function mainMenu(person, people){
     case "info":
     // TODO: get person's info
     displayPerson(person);
+    mainMenu(person, people);
     break;
     case "family":
     // TODO: get person's family
@@ -70,25 +71,51 @@ function searchByName(people){
     }
   })
   // TODO: find the person using the name they entered
-  foundPerson = foundPerson[0]
   return foundPerson;
 }
 
+// TODO: have to use recursion with this function
+function displayDecendants(person, people) {
+  
+
+}
+
+function getParents(person, people) {
+  let family = '';
+  if(person.parents.length === 0) {
+    family += `${person.firstName} ${person.lastName} has no parents\n`
+  }
+  for (let j = 0; j < person.parents.length; j++) {
+    for (let k = 0; k < people.length; k++) {
+      if (person.parents[j] === people[k]['id']) {
+        family += `Parent: ${people[k]['firstName']} ${people[k]['lastName']}\n`
+        break;
+    } 
+    }
+  }
+  return family;
+}
+
 function displayFamily(person, people) {
-  let family = person.currentSpouse;
-  family = parseInt(family);
+  // let family = person.currentSpouse;
+  // family = parseInt(family);
+  let family = '';
 
-  if(family === null) {
-    alert(`${person.firstName} ${person.lastName} has no family`)
+  if(person.currentSpouse === null) {
+    family += `${person.firstName} ${person.lastName} has no spouse\n`
+  } else{
+      for (let i = 0; i < people.length; i++) {
+        if (person.currentSpouse === people[i]['id']) {
+          // TODO: change the format of the family to display all the information
+          family += `${person.firstName} ${person.lastName} is married to ${people[i]['firstName']} ${people[i]['lastName']}\n`
+        };
+      }
   }
 
-  for (let i = 0; i < people.length; i++) {
-    if (family === people[i]['id']) {
-      console.log(people[i])
-      alert(`${person.firstName} ${person.lastName} is married to ${people[i]['firstName']} ${people[i]['lastName']}`)
-    };
-  }
+  let person_parents = getParents(person, people);
+  family += person_parents;
 
+  alert(family);
 }
 
 // alerts a list of people
@@ -103,9 +130,14 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
 
   // TODO: finish getting the rest of the information to display
-  let personInfo = `First Name: ${person.firstName}\nLast Name: ${person.lastName}\n
-  gender: ${person.gender}\n dob: ${person.dob}\n height: ${person.height}\n
-  weight: ${person.weight}\n eyeColor: ${person.eyeColor}\n occupation: ${person.occupation}`
+  let personInfo = 'First Name: ' + person.firstName + '\n' 
+  personInfo+= 'Last Name: ' + person.lastName + '\n'
+  personInfo += 'Gender: ' + person.gender + '\n' 
+  personInfo += 'DOB: ' + person.dob + '\n' 
+  personInfo += 'Height: ' + person.height + '\n'
+  personInfo += 'Weight: ' + person.weight + '\n' 
+  personInfo += 'EyeColor: ' + person.eyeColor + '\n'
+  personInfo += 'Occupation: ' + person.occupation
   alert(personInfo);
 }
 
