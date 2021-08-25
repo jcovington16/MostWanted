@@ -20,7 +20,7 @@ function app(people){
   }
   
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults, people);
+  mainMenu(searchResults[0], people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -37,17 +37,25 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    displayPerson(person);
+    mainMenu(person, people);
     break;
+
     case "family":
-    // TODO: get person's family
+    let get_family = getFamily(person, people);
+    displayPeople(get_family);
+    mainMenu(person, people);
     break;
+
     case "descendants":
-    // TODO: get person's descendants
+    let parent_descendatns = getDescendants(person, people);
+    parent_descendatns.length !== 0 ? displayDescendants(parent_descendatns) : mainMenu(person, people);
     break;
+
     case "restart":
     app(people); // restart
     break;
+    
     case "quit":
     return; // stop execution
     default:
@@ -71,6 +79,42 @@ function searchByName(people){
   return foundPerson;
 }
 
+// Used with displayDecendants 
+function getDescendants(person, people) {
+  let parent_tree = people.filter((item) => {
+    if(item.parents.includes(person.id)) {
+      return true;
+    }
+  });
+
+  if (parent_tree.length === 0) {
+    alert(`${person.firstName} ${person.lastName} has no children.`)
+  }
+  return parent_tree;
+}
+
+// TODO: have to use recursion with this function
+function displayDescendants(arr, arr2=[]) {
+
+  if(arr.length <= 0) {
+    alert(`Children: ${arr2.join(' ')}`)
+    return;
+  }
+  arr2.push(`${arr[0]['firstName']} ${arr[0]['lastName']} `)
+  arr.shift();
+  displayDecendants(arr, arr2);
+}
+
+function getFamily(person, people) {
+
+  let family = people.filter((item) => {
+    if (person.parents.includes(item.id) || item.parents.includes(person.id) || person.currentSpouse === item.id) {
+      return true;
+    } 
+  })
+  return family;
+}
+
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
@@ -81,9 +125,16 @@ function displayPeople(people){
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
+
   // TODO: finish getting the rest of the information to display
+  let personInfo = 'First Name: ' + person.firstName + '\n' 
+  personInfo+= 'Last Name: ' + person.lastName + '\n'
+  personInfo += 'Gender: ' + person.gender + '\n' 
+  personInfo += 'DOB: ' + person.dob + '\n' 
+  personInfo += 'Height: ' + person.height + '\n'
+  personInfo += 'Weight: ' + person.weight + '\n' 
+  personInfo += 'EyeColor: ' + person.eyeColor + '\n'
+  personInfo += 'Occupation: ' + person.occupation
   alert(personInfo);
 }
 
