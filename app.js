@@ -37,22 +37,25 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
     displayPerson(person);
     mainMenu(person, people);
     break;
+
     case "family":
-    // TODO: get person's family
     let get_family = getFamily(person, people);
     displayPeople(get_family);
-    mainMenu(person,people);
+    mainMenu(person, people);
     break;
+
     case "descendants":
-    // TODO: get person's descendants
+    let parent_descendatns = getDescendants(person, people);
+    parent_descendatns.length !== 0 ? displayDescendants(parent_descendatns) : mainMenu(person, people);
     break;
+
     case "restart":
     app(people); // restart
     break;
+    
     case "quit":
     return; // stop execution
     default:
@@ -76,10 +79,30 @@ function searchByName(people){
   return foundPerson;
 }
 
-// TODO: have to use recursion with this function
-function displayDecendants(person, people) {
-  
+// Used with displayDecendants 
+function getDescendants(person, people) {
+  let parent_tree = people.filter((item) => {
+    if(item.parents.includes(person.id)) {
+      return true;
+    }
+  });
 
+  if (parent_tree.length === 0) {
+    alert(`${person.firstName} ${person.lastName} has no children.`)
+  }
+  return parent_tree;
+}
+
+// TODO: have to use recursion with this function
+function displayDescendants(arr, arr2=[]) {
+
+  if(arr.length <= 0) {
+    alert(`Children: ${arr2.join(' ')}`)
+    return;
+  }
+  arr2.push(`${arr[0]['firstName']} ${arr[0]['lastName']} `)
+  arr.shift();
+  displayDecendants(arr, arr2);
 }
 
 function getFamily(person, people) {
