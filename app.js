@@ -67,7 +67,7 @@ function searchByName(people){
       return false;
     }
   })
-  foundPerson = foundPerson[0];// Done
+  foundPerson = foundPerson[0];
   return foundPerson;
 }
 
