@@ -16,11 +16,11 @@ function app(people){
       break;
       default:
     app(people); // restart app
-      break;0
+      break;
   }
   
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
-  mainMenu(searchResults, people);
+  mainMenu(searchResults[0], people);
 }
 
 // Menu function to call once you find who you are looking for
@@ -37,21 +37,34 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-      displayPerson(person);
-      break;
+    displayPerson(person);
+    mainMenu(person, people);
+    break;
+
     case "family":
-    // TODO: get person's family
-      break;
+    let get_family = getFamily(person, people);
+    displayPeople(get_family);
+    mainMenu(person, people);
+    break;
+
     case "descendants":
-    // TODO: get person's descendants
-      break;
+    let parent_descendatns = getDescendants(person, people);
+    if(parent_descendatns.length !== 0){
+      displayDescendants(parent_descendatns);
+      mainMenu(person, people);
+    }else {
+    mainMenu(person, people);
+    }
+    break;
+
     case "restart":
     app(people); // restart
-      break;
+    break;
+    
     case "quit":
-      return; // stop execution
+    return; // stop execution
     default:
-      return mainMenu(person, people); // ask again
+    return mainMenu(person, people); // ask again
   }
 }
 
@@ -67,8 +80,44 @@ function searchByName(people){
       return false;
     }
   })
-  foundPerson = foundPerson[0];
+  // TODO: find the person using the name they entered
   return foundPerson;
+}
+
+// Used with displayDecendants 
+function getDescendants(person, people) {
+  let parent_tree = people.filter((item) => {
+    if(item.parents.includes(person.id)) {
+      return true;
+    }
+  });
+
+  if (parent_tree.length === 0) {
+    alert(`${person.firstName} ${person.lastName} has no children.`)
+  }
+  return parent_tree;
+}
+
+// TODO: have to use recursion with this function
+function displayDescendants(arr, arr2=[]) {
+
+  if(arr.length <= 0) {
+    alert(`Children: ${arr2.join(' ')}`)
+    return;
+  }
+  arr2.push(`${arr[0]['firstName']} ${arr[0]['lastName']} `)
+  arr.shift();
+  displayDescendants(arr, arr2);
+}
+
+function getFamily(person, people) {
+
+  let family = people.filter((item) => {
+    if (person.parents.includes(item.id) || item.parents.includes(person.id) || person.currentSpouse === item.id) {
+      return true;
+    } 
+  })
+  return family;
 }
 
 // alerts a list of people
@@ -81,17 +130,16 @@ function displayPeople(people){
 function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
-  let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
-  personInfo += "ID: " + person.id + "\n";
-  personInfo += "Gender: " + person.gender +"\n";
-  personInfo += "DOB: " + person.dob + "\n";
-  personInfo += "Height: " + person.height + "\n";
-  personInfo += "Weight: " + person.weight + "\n";
-  personInfo += "Eye Color: " + person.eyeColor + "\n";
-  personInfo += "Occupation: " + person.occupation + "\n";
-  personInfo += "Parents: " + person.parents + "\n";                //need function to replace ID with full name
-  personInfo += "Current Spouse: " + person.currentSpouse + "\n";   //need function to replace ID with full name
+
+  // TODO: finish getting the rest of the information to display
+  let personInfo = 'First Name: ' + person.firstName + '\n' 
+  personInfo+= 'Last Name: ' + person.lastName + '\n'
+  personInfo += 'Gender: ' + person.gender + '\n' 
+  personInfo += 'DOB: ' + person.dob + '\n' 
+  personInfo += 'Height: ' + person.height + '\n'
+  personInfo += 'Weight: ' + person.weight + '\n' 
+  personInfo += 'EyeColor: ' + person.eyeColor + '\n'
+  personInfo += 'Occupation: ' + person.occupation
   alert(personInfo);
 }
 
@@ -160,7 +208,7 @@ function searchByTrait(people){
   }
     if (foundPeople.length > 1) {
       displayPeople(foundPeople);
-      searchByTrait(people)
+      searchByTrait(foundPeople)
     } else if (foundPeople.length === 1) {
       let foundPerson = foundPeople[0];
       mainMenu(foundPerson, people);
