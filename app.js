@@ -48,9 +48,12 @@ function mainMenu(person, people){
     break;
 
     case "descendants":
-    let parent_descendatns = getDescendants(person, people);
-    if(parent_descendatns.length !== 0){
-      displayDescendants(parent_descendatns);
+    let parent_descendants = getDescendants(person, people);
+    let grand_descendants = getGrandchildren(parent_descendants, people);
+    let family = parent_descendants.concat(grand_descendants);
+    
+    if(family.length !== 0){
+      displayDescendants(family);
       mainMenu(person, people);
     }else {
     mainMenu(person, people);
@@ -98,11 +101,24 @@ function getDescendants(person, people) {
   return parent_tree;
 }
 
+function getGrandchildren(arr, people) {
+  let grandkids = [];
+  for (let idx = 0; idx < arr.length; idx++) {
+    for (let idx2 = 0; idx2 < people.length; idx2++) {
+      if (people[idx2].parents.includes(arr[idx].id)) {
+        grandkids.push(people[idx2]);
+      }
+    }
+  }
+  return grandkids;
+}
+
+
 // TODO: have to use recursion with this function
 function displayDescendants(arr, arr2=[]) {
 
   if(arr.length <= 0) {
-    alert(`Children: ${arr2.join(' ')}`)
+    alert(`Descendants: ${arr2.join(' ')}`)
     return;
   }
   arr2.push(`${arr[0]['firstName']} ${arr[0]['lastName']} `)
@@ -311,4 +327,3 @@ function ageFinder(dob){
   }
   return age;
 }
-
