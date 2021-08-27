@@ -49,15 +49,10 @@ function mainMenu(person, people){
 
     case "descendants":
     let parent_descendants = getDescendants(person, people);
-    let grand_descendants = getGrandchildren(parent_descendants, people);
-    let family = parent_descendants.concat(grand_descendants);
-    
-    if(family.length !== 0){
-      displayDescendants(family);
-      mainMenu(person, people);
-    }else {
+    //let grand_descendants = getGrandchildren(parent_descendants, people);
+    //let family = parent_descendants.concat(grand_descendants);
+    displayPeople(parent_descendants);
     mainMenu(person, people);
-    }
     break;
 
     case "restart":
@@ -83,48 +78,27 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered
+
   return foundPerson;
 }
 
 // Used with displayDecendants 
-function getDescendants(person, people) {
+function getDescendants(person, people, children=[], idx = 0) {
+  
   let parent_tree = people.filter((item) => {
     if(item.parents.includes(person.id)) {
+      children.push(item);
       return true;
     }
   });
 
-  if (parent_tree.length === 0) {
-    alert(`${person.firstName} ${person.lastName} has no children.`)
+  for (let i = idx; i < children.length; i++) { 
+    return getDescendants(children[i], people, children, i + 1)
   }
-  return parent_tree;
+
+  return children;
 }
 
-function getGrandchildren(arr, people) {
-  let grandkids = [];
-  for (let idx = 0; idx < arr.length; idx++) {
-    for (let idx2 = 0; idx2 < people.length; idx2++) {
-      if (people[idx2].parents.includes(arr[idx].id)) {
-        grandkids.push(people[idx2]);
-      }
-    }
-  }
-  return grandkids;
-}
-
-
-// TODO: have to use recursion with this function
-function displayDescendants(arr, arr2=[]) {
-
-  if(arr.length <= 0) {
-    alert(`Descendants: ${arr2.join(' ')}`)
-    return;
-  }
-  arr2.push(`${arr[0]['firstName']} ${arr[0]['lastName']} `)
-  arr.shift();
-  displayDescendants(arr, arr2);
-}
 
 function getFamily(person, people) {
 
@@ -147,7 +121,6 @@ function displayPerson(person){
   // print all of the information about a person:
   // height, weight, age, name, occupation, eye color.
 
-  // TODO: finish getting the rest of the information to display
   let personInfo = 'First Name: ' + person.firstName + '\n' 
   personInfo+= 'Last Name: ' + person.lastName + '\n'
   personInfo += 'Gender: ' + person.gender + '\n' 
