@@ -42,15 +42,16 @@ function mainMenu(person, people){
     break;
 
     case "family":
-    let get_family = getFamily(person, people);
-    displayPeople(get_family);
+    getSpouse(person, people);
+    getParents(person, people);
+    //getSiblings(person, people);
+    //let sibilings = getSiblings(person, people)
+    //displayPeople(sibilings)
     mainMenu(person, people);
     break;
 
     case "descendants":
     let parent_descendants = getDescendants(person, people);
-    //let grand_descendants = getGrandchildren(parent_descendants, people);
-    //let family = parent_descendants.concat(grand_descendants);
     displayPeople(parent_descendants);
     mainMenu(person, people);
     break;
@@ -100,14 +101,41 @@ function getDescendants(person, people, children=[], idx = 0) {
 }
 
 
-function getFamily(person, people) {
+function getSpouse(person, people) {
 
-  let family = people.filter((item) => {
-    if (person.parents.includes(item.id) || item.parents.includes(person.id) || person.currentSpouse === item.id) {
+  let spouse = people.filter((item) => {
+    if (person.currentSpouse === item.id) {
+      return true;
+    }
+  })
+  if (spouse.length === 0) {
+    alert(`${person.firstName} is not married.`)
+  } else {
+      alert(`${person.firstName} is married to ${spouse[0]['firstName']} ${spouse[0]['lastName']}`);
+  }
+  return spouse;
+}
+
+function getParents(person, people) {
+  let parents = [];
+
+  let parent = people.filter((item) => {
+    if(person.parents.includes(item.id)) {
+      parents.push(item)
       return true;
     } 
   })
-  return family;
+   
+  if (parents.length === 0){
+    alert(`${person.firstName} has no parents`)
+  }else {
+    let family = '';
+    for (let i = 0; i < parents.length; i++) {
+      family += `${parents[i].firstName} ${parents[i].lastName}`
+    }
+    alert(`Parents: ${family}`)
+  }
+  
 }
 
 // alerts a list of people
