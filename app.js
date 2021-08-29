@@ -44,7 +44,7 @@ function mainMenu(person, people){
     case "family":
     getSpouse(person, people);
     getParents(person, people);
-    //getSiblings(person, people);
+    getSiblings(person, people);
     //let sibilings = getSiblings(person, people)
     //displayPeople(sibilings)
     mainMenu(person, people);
@@ -52,7 +52,7 @@ function mainMenu(person, people){
 
     case "descendants":
     let parent_descendants = getDescendants(person, people);
-    displayPeople(parent_descendants);
+    if (parent_descendants.length !== 0 ? displayPeople(parent_descendants): alert(`${person.firstName} has no descendants`));
     mainMenu(person, people);
     break;
 
@@ -98,6 +98,10 @@ function getDescendants(person, people, children=[], idx = 0) {
   }
 
   return children;
+}
+
+function getSiblings(person, people) {
+
 }
 
 
