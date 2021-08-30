@@ -45,7 +45,7 @@ function mainMenu(person, people){
     getSpouse(person, people);
     getParents(person, people);
     let sibilings = getSiblings(person, people);
-    if(sibilings.length !== 0 ? displayPeople(sibilings) : alert(`${person.firstName} has no siblings`)); 
+    if(sibilings.length !== 0 ? displaySibilings(sibilings) : alert(`${person.firstName} has no siblings`)); 
     mainMenu(person, people);
     break;
 
@@ -152,6 +152,12 @@ function getParents(person, people) {
 function displayPeople(people){
   alert(people.map(function(person){
     return person.firstName + " " + person.lastName + "\n";
+  }).join("\n"));
+}
+
+function displaySibilings(people) {
+  alert(people.map(function(person){
+    return `Sibling: ${person.firstName} ${person.lastName} \n`;
   }).join("\n"));
 }
 
