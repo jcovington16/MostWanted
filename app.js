@@ -44,15 +44,14 @@ function mainMenu(person, people){
     case "family":
     getSpouse(person, people);
     getParents(person, people);
-    getSiblings(person, people);
-    //let sibilings = getSiblings(person, people)
-    //displayPeople(sibilings)
+    let sibilings = getSiblings(person, people);
+    if(sibilings.length !== 0 ? displayPeople(sibilings) : alert(`${person.firstName} has no siblings`)); 
     mainMenu(person, people);
     break;
 
     case "descendants":
     let parent_descendants = getDescendants(person, people);
-    if (parent_descendants.length !== 0 ? displayPeople(parent_descendants): alert(`${person.firstName} has no descendants`));
+    if (parent_descendants.length !== 0 ? displayPeople(parent_descendants) : alert(`${person.firstName} has no descendants`));
     mainMenu(person, people);
     break;
 
@@ -101,7 +100,14 @@ function getDescendants(person, people, children=[], idx = 0) {
 }
 
 function getSiblings(person, people) {
-
+  let siblings = people.filter((item) => {
+    for(let i = 0; i < person.parents.length; i++) {
+      if(item.parents.includes(person.parents[i])){
+        return true;
+      }
+    }
+  })
+  return siblings;
 }
 
 
@@ -145,7 +151,7 @@ function getParents(person, people) {
 // alerts a list of people
 function displayPeople(people){
   alert(people.map(function(person){
-    return person.firstName + " " + person.lastName;
+    return person.firstName + " " + person.lastName + "\n";
   }).join("\n"));
 }
 
