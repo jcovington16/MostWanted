@@ -254,6 +254,7 @@ function searchByTrait(people){
 function noResults(){
   alert("Could not find a trait match!");
 }
+
 //search function for gender
 function genderSearch(people){ 
   let userChoice = promptFor("Is the person male or female?", validateGender);
@@ -267,6 +268,7 @@ function genderSearch(people){
     }
    return foundPeople;
 }
+
 //search function for height
 function getHeight(people){  
   let userChoice = promptFor("What is the person's height in inches?",integers);
@@ -280,6 +282,7 @@ function getHeight(people){
   }
   return foundPeople;
 }
+
 //search function for weight
 function getWeight(people){ 
   let userChoice = promptFor("What is the person's weight?",integers);
@@ -293,6 +296,7 @@ function getWeight(people){
   }
   return foundPeople;
 }
+
 //search function for eye color
 function getEyes(people){
   let userChoice = promptFor("What is the person's eye color?",chars);
@@ -306,6 +310,7 @@ function getEyes(people){
   }
   return foundPeople;
 }
+
 //search function for occupation 
 function getOccupation(people){
   let userChoice = promptFor("What is the person's occupation?",chars);
@@ -319,6 +324,7 @@ function getOccupation(people){
   }
   return foundPeople;
 }
+
 //search function for age
 function getAge(people){
   let userChoice = promptFor("What is the person's date of birth? \n Format: MM/DD/YYY",integers);
@@ -333,6 +339,7 @@ function getAge(people){
   }
   return foundPeople;
 }
+
 //function that converts DOB into age integer.
 function ageFinder(dob){
   var today = new Date();
